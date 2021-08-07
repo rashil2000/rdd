@@ -12,7 +12,7 @@
 $ ls
 README.md
 $ npx rdd --open
-Serving on 0.0.0.0:8888/README.md
+Serving on 127.0.0.1:8888/README.md
 ```
 
 Here we’re using the `--open` flag to open the rendered Markdown file in our default web browser. The rendered page will be updated automatically whenever we edit and save `README.md`.

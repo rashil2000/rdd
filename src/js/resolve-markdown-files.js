@@ -1,13 +1,7 @@
-const globby = require('globby')
+const path = require('path')
 const markdownExtensions = require('markdown-extensions')
 
 const name = require('../../package.json').name
-
-const markdownFilesRegularExpression = new RegExp(
-  '.(' + markdownExtensions.join('|') + ')$',
-  'i'
-)
-const defaultGlob = 'readme.(' + markdownExtensions.join('|') + ')'
 
 function logError (message) {
   console.error(`${name}: ${message}`)
@@ -15,17 +9,11 @@ function logError (message) {
 }
 
 async function resolveMarkdownFiles (globPatterns) {
-  const filtered = globPatterns.filter(Boolean)
-  if (filtered.length === 0) {
-    filtered.push(defaultGlob)
-  }
-  const files = await globby(filtered, { caseSensitiveMatch: false })
+  const files = globPatterns.filter(fname => markdownExtensions.indexOf(path.extname(fname).replace('.', '')) !== -1)
   if (files.length === 0) {
     return logError('Need a Markdown file')
   }
-  return files.filter(function (file) {
-    return markdownFilesRegularExpression.test(file)
-  })
+  return files
 }
 
 module.exports = resolveMarkdownFiles
